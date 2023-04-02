@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>~Draft-o-Matic~</title>
+        <style>
+            body {
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 14px;
+                background-color: rgb(240, 240, 240);
+            }
+            input[type="text"] {
+                font-family:'Courier New', Courier, monospace;
+                font-size: 14px;
+            }
+            input[type='checkbox'] {
+                accent-color: rgb(178, 220, 189);
+                height: 18px;
+                width: 18px;
+                border-width: 1px;
+                border-color:rgb(107, 106, 107);
+                box-shadow: none;
+            }
+            input[type="number"] {
+                font-family:'Courier New', Courier, monospace;
+                font-size: 14px;
+            }
+            select {
+                font-family:'Courier New', Courier, monospace;
+                font-size: 14px;
+                background-color: white;
+                border-style: solid;
+                border-width: 1px;
+                border-color: rgb(107, 106, 107);
+                height: 22px;
+            }
+            div {
+                display: none;
+            }
+            .Buttons {
+                background-color: rgb(236, 196, 197);  
+                border-width: 1px;
+                border-color:rgb(107, 106, 107);
+                border-radius: 4px;
+                padding: 6px 12px;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 14px;
+                color: black;
+                width: 164px;
+                height: 40px;
+            }
+            .Buttons:hover {
+                background-color: rgb(216, 177, 177);    
+            }
+            .n_rad {
+            accent-color: rgb(185, 181, 200);
+            height: 20px;
+            width: 20px;
+            }
+            .y_rad {
+            accent-color: rgb(225, 162, 163);
+            height: 20px;
+            width: 20px;
+            }
+            .p_rad {
+            accent-color: rgb(185, 174, 232);
+            height: 20px;
+            width: 20px;
+            }
+            .d_rad {
+            accent-color: rgb(220, 228, 173);
+            height: 20px;
+            width: 20px;
+            }
+            .b_rad {
+            accent-color: rgb(163, 216, 176);
+            height: 20px;
+            width: 20px;
+            }
+            .pet_blue {
+            background-color: rgb(224, 219, 247);
+            font-size: 24px;
+            text-align: center;
+            border-width: 1px;
+            border-color:rgb(107, 106, 107);
+            border-radius: 4px;
+            height: 28px;
+            padding: 6px 12px;
+            }
+            .def_yellow {
+            background-color: rgb(240, 244, 208);
+            font-size: 24px;
+            text-align: center;
+            border-width: 1px;
+            border-color:rgb(107, 106, 107);
+            border-radius: 4px;
+            height: 28px;
+            padding: 6px 12px;
+            }
+            #header {
+            display: block;
+            position: fixed;
+            top:0;
+            z-index: 1000;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="header">
+        <table style="background-color: rgb(240, 240, 240);">
+            <tr>
+                <td><input type = "text" id="pName" placeholder="petitioner" style="width: 144px;" class="pet_blue"></td>
+                <td><input type = "text" id="dName" placeholder="defendant" style="width: 144px;" class="def_yellow"></td>
+            </tr>
+        </table>
+        </div>
+        <br><br><br>
+        <input type = "checkbox" id="custodyIssue" onclick="custodyCheck();">: CUSTODY<br>
+        <input type = "checkbox" id="csIssue" onclick="csCheck();">: CHILD SUPPORT<br>
+        <input type = "checkbox" id="ssIssue" onclick="ssCheck();">: SPOUSAL SUPPORT<br>
+        <input type = "checkbox" id="cpIssue" onclick="cpCheck();">: COMMUNITY PROPERTY<br>
+        <input type = "checkbox" id="otherIssue" onclick="otherCheck();">: OTHER ISSUES<br>
+        <input type = "checkbox" id="contemptIssue" onclick="contemptCheck();">: CONTEMPT<br>
+        <input type = "checkbox" id="paternityIssue" onclick="paternityCheck();">: PATERNITY<br>
+        <input type = "checkbox" id="costIssue" onclick="costCheck();">: COST & DOCKET<br>
+        <br>
+        <div id="custody_Div">
+        <p><u>CUSTODY</u>:</p>
+        <input type = "number" id="childNumber" min="0" max="6" size="4">
+        <select name="kiddos" id="kiddos">
+            <option value="child">child</option>
+            <option value="children">children</option>
+        </select>
+        <input type = "text" id="childNameDOBs" placeholder="names(dobs)" style="width: 175px;"><br><br>
+        <select id="issue_1" style="width: 114px;" placeholder="#">
+            <option value=0>n/a</option>
+            <option value=1>joint</option>
+            <option value=2>shared</option>
+            <option value=3>sole-p</option>
+            <option value=4>sole-d</option>
+        </select> -: custody<br>
+        <p><input type = "radio" name="issue_2" value="0" class="n_rad" checked> <input type = "radio" name="issue_2" value="1" class="p_rad"> <input type = "radio" name="issue_2" value="2" class="d_rad"> <input type = "radio" name="issue_2" value="3" class="b_rad">: dom-p</p>
+        <p><input type = "radio" name="issue_3" value="0" class="n_rad" checked> <input type = "radio" name="issue_3" value="1" class="y_rad"> -------: ofw </p>
+        <p><input type = "radio" name="issue_4" value="0" class="n_rad" checked> <input type = "radio" name="issue_4" value="1" class="y_rad"> -------: parent-coord</p>
+        <p><input type = "radio" name="issue_5" value="0" class="n_rad" checked> <input type = "radio" name="issue_5" value="1" class="p_rad"> <input type = "radio" name="issue_5" value="2" class="d_rad"> <input type = "radio" name="issue_5" value="3" class="b_rad">: anger-mgmt</p>
+        <p><input type = "radio" name="issue_6" value="0" class="n_rad" checked> <input type = "radio" name="issue_6" value="1" class="p_rad"> <input type = "radio" name="issue_6" value="2" class="d_rad"> <input type = "radio" name="issue_6" value="3" class="b_rad">: psych-eval</p>
+
+        <p><input type = "radio" name="issue_7" value="0" class="n_rad" checked> <input type = "radio" name="issue_7" value="1" class="p_rad"> <input type = "radio" name="issue_7" value="2" class="d_rad"> <input type = "radio" name="issue_7" value="3" class="b_rad">: custody-1 <input type = "text" id="custodyIssue_1" placeholder="custody-1" style="width: 96px;"></p>
+        <p><input type = "radio" name="issue_8" value="0" class="n_rad" checked> <input type = "radio" name="issue_8" value="1" class="p_rad"> <input type = "radio" name="issue_8" value="2" class="d_rad"> <input type = "radio" name="issue_8" value="3" class="b_rad">: custody-2 <input type = "text" id="custodyIssue_2" placeholder="custody-2" style="width: 96px;"></p>
+        <p><input type = "radio" name="issue_9" value="0" class="n_rad" checked> <input type = "radio" name="issue_9" value="1" class="p_rad"> <input type = "radio" name="issue_9" value="2" class="d_rad"> <input type = "radio" name="issue_9" value="3" class="b_rad">: custody-3 <input type = "text" id="custodyIssue_3" placeholder="custody-3" style="width: 96px;"></p>
+        <p><input type = "radio" name="issue_10" value="0" class="n_rad" checked> <input type = "radio" name="issue_10" value="1" class="p_rad"> <input type = "radio" name="issue_10" value="2" class="d_rad"> <input type = "radio" name="issue_10" value="3" class="b_rad">: custody-4 <input type = "text" id="custodyIssue_4" placeholder="custody-4" style="width: 96px;"></p>
+        <p><input type = "radio" name="issue_11" value="0" class="n_rad" checked> <input type = "radio" name="issue_11" value="1" class="p_rad"> <input type = "radio" name="issue_11" value="2" class="d_rad"> <input type = "radio" name="issue_11" value="3" class="b_rad">: custody-5 <input type = "text" id="custodyIssue_5" placeholder="custody-5" style="width: 96px;"></p>
+        </div>
+
+        <div id="cs_Div">
+        <p><u>CHILD SUPPORT</u>: <a href="CsCalculator-A-Button.2-responsive.html" target="_blank">*cs-calculators*</a></p>
+        <p><input type = "radio" name="issue_12" value="0" class="n_rad" checked> <input type = "radio" name="issue_12" value="1" class="p_rad"> <input type = "radio" name="issue_12" value="2" class="d_rad"> ---: cs <input type="number" id="cs_Amt" placeholder="$" style="width: 52px;"> <input type = "text" id="cs_Retro_Date" placeholder="date" style="width: 82px;"></p>
+        <p><input type = "radio" name="issue_13" value="0" class="n_rad" checked> <input type = "radio" name="issue_13" value="1" class="y_rad"> -------: unins-meds <input type = "number" id="meds_p" placeholder="p-%" style="width: 33px;">&nbsp;<input type = "number" id="meds_d" placeholder="d-%" style="width: 33px;"></p>
+        <p><input type = "radio" name="issue_14" value="0" class="n_rad" checked> <input type = "radio" name="issue_14" value="1" class="p_rad"> <input type = "radio" name="issue_14" value="2" class="d_rad"> <input type = "radio" name="issue_14" value="3" class="b_rad">: tax-benefits</p>
+        <p><input type = "radio" name="issue_15" value="0" class="n_rad" checked> <input type = "radio" name="issue_15" value="1" class="p_rad"> <input type = "radio" name="issue_15" value="2" class="d_rad"> <input type = "radio" name="issue_15" value="3" class="b_rad">: ins-child</p>
+        </div>
+        
+        <div id="ss_Div">
+        <p><u>SPOUSAL SUPPORT</u>:</p>
+        <p><input type = "radio" name="issue_16" value="0" class="n_rad" checked> <input type = "radio" name="issue_16" value="1" class="p_rad"> <input type = "radio" name="issue_16" value="2" class="d_rad"> ---: ipss <input type="number" id="ipss_Amt" style="width: 48px;" placeholder="$"> <input type = "text" id="ipss_Retro_Date" placeholder="date" style="width: 71px;"></p>
+        <p><input type = "radio" name="issue_17" value="0" class="n_rad" checked> <input type = "radio" name="issue_17" value="1" class="p_rad"> <input type = "radio" name="issue_17" value="2" class="d_rad"> ---: ipss-bills</p>
+        <p><input type = "radio" name="issue_18" value="0" class="n_rad" checked> <input type = "radio" name="issue_18" value="1" class="p_rad"> <input type = "radio" name="issue_18" value="2" class="d_rad"> ---: fpss   <input type="number" id="fpss_Amt" style="width: 48px;" placeholder="$"> <input type = "text" id="fpss_Retro_Date" placeholder="date" style="width: 71px;"></p>
+        <p><input type = "radio" name="issue_19" value="0" class="n_rad" checked> <input type = "radio" name="issue_19" value="1" class="p_rad"> <input type = "radio" name="issue_19" value="2" class="d_rad"> ---: denied/dismissed</p>
+        </div>
+        
+        <div id="cp_Div">
+        <p><u>COMMUNITY PROPERTY</u>:</p>
+        <p><input type = "radio" name="issue_20" value="0" class="n_rad" checked> <input type = "radio" name="issue_20" value="1" class="p_rad"> <input type = "radio" name="issue_20" value="2" class="d_rad"> <input type = "radio" name="issue_20" value="3" class="b_rad">: use-home <input type = "text" id="mat_Dom_Address" placeholder="home-address" style="width: 107px;"></p>
+        <p><input type = "radio" name="issue_21" value="0" class="n_rad" checked> <input type = "radio" name="issue_21" value="1" class="p_rad"> <input type = "radio" name="issue_21" value="2" class="d_rad"> <input type = "radio" name="issue_21" value="3" class="b_rad">: frv</p>
+        <p><input type = "radio" name="issue_22" value="0" class="n_rad" checked> <input type = "radio" name="issue_22" value="1" class="p_rad"> <input type = "radio" name="issue_22" value="2" class="d_rad"> <input type = "radio" name="issue_22" value="3" class="b_rad">: ret-prop</p>
+        <p><input type = "radio" name="issue_23" value="0" class="n_rad" checked> <input type = "radio" name="issue_23" value="1" class="p_rad"> <input type = "radio" name="issue_23" value="2" class="d_rad"> <input type = "radio" name="issue_23" value="3" class="b_rad">: auto-movables</p>
+        <p><input type = "text" id="auto_Mov_1" placeholder="auto-mov-p" style="width: 151px;"> <input type = "text" id="auto_Mov_2" placeholder="auto-mov-d" style="width: 151px;"></p>
+        <p><input type = "radio" name="issue_24" value="0" class="n_rad" checked> <input type = "radio" name="issue_24" value="1" class="y_rad"> -------: cp-injunct</p>
+        <p><input type = "radio" name="issue_25" value="0" class="n_rad" checked> <input type = "radio" name="issue_25" value="1" class="y_rad"> -------: term-regime <input type="text" id="term_Date" placeholder="date" style="width: 86px;"></p>
+        <p><input type = "radio" name="issue_26" value="0" class="n_rad" checked> <input type = "radio" name="issue_26" value="1" class="y_rad"> -------: ddls</p>
+        <p><input type = "radio" name="issue_27" value="0" class="n_rad" checked> <input type = "radio" name="issue_27" value="1" class="y_rad"> -------: 1/2-owners</p>
+        </div>
+
+        <div id="other_Div">
+        <p><u>OTHER ISSUES</u>:</p>
+        <p><input type = "radio" name="issue_28" value="0" class="n_rad" checked> <input type = "radio" name="issue_28" value="1" class="y_rad"> -------: hoc-fix <input type = "text" id="hoc_Date" placeholder="date" style="width: 119px;"></p>
+        <p><input type = "radio" name="issue_29" value="0" class="n_rad" checked> <input type = "radio" name="issue_29" value="1" class="y_rad"> -------: status-fix <input type = "text" id="status_Date" placeholder="date" style="width: 94px;"></p>
+        <p><input type = "radio" name="issue_30" value="0" class="n_rad" checked> <input type = "radio" name="issue_30" value="1" class="p_rad"> <input type = "radio" name="issue_30" value="2" class="d_rad"> <input type = "radio" name="issue_30" value="3" class="b_rad">: tro-harass</p>
+        <p><input type = "radio" name="issue_31" value="0" class="n_rad" checked> <input type = "radio" name="issue_31" value="1" class="p_rad"> <input type = "radio" name="issue_31" value="2" class="d_rad"> <input type = "radio" name="issue_31" value="3" class="b_rad">: ins-spouse</p>
+        <p><input type = "radio" name="issue_32" value="0" class="n_rad" checked> <input type = "radio" name="issue_32" value="1" class="p_rad"> <input type = "radio" name="issue_32" value="2" class="d_rad"> <input type = "radio" name="issue_32" value="3" class="b_rad">: drug-now</p>
+        <p><input type = "radio" name="issue_33" value="0" class="n_rad" checked> <input type = "radio" name="issue_33" value="1" class="p_rad"> <input type = "radio" name="issue_33" value="2" class="d_rad"> <input type = "radio" name="issue_33" value="3" class="b_rad">: drug-random</p>
+        <p><input type = "radio" name="issue_34" value="0" class="n_rad" checked> <input type = "radio" name="issue_34" value="1" class="p_rad"> <input type = "radio" name="issue_34" value="2" class="d_rad"> <input type = "radio" name="issue_34" value="3" class="b_rad">: other-1 <input type = "text" id="otherIssue_1" placeholder="other-1" style="width: 113px;"></p>
+        <p><input type = "radio" name="issue_35" value="0" class="n_rad" checked> <input type = "radio" name="issue_35" value="1" class="p_rad"> <input type = "radio" name="issue_35" value="2" class="d_rad"> <input type = "radio" name="issue_35" value="3" class="b_rad">: other-2 <input type = "text" id="otherIssue_2" placeholder="other-2" style="width: 113px;"></p>
+        <p><input type = "radio" name="issue_36" value="0" class="n_rad" checked> <input type = "radio" name="issue_36" value="1" class="p_rad"> <input type = "radio" name="issue_36" value="2" class="d_rad"> <input type = "radio" name="issue_36" value="3" class="b_rad">: other-3 <input type = "text" id="otherIssue_3" placeholder="other-3" style="width: 113px;"></p>
+        <p><input type = "radio" name="issue_37" value="0" class="n_rad" checked> <input type = "radio" name="issue_37" value="1" class="p_rad"> <input type = "radio" name="issue_37" value="2" class="d_rad"> <input type = "radio" name="issue_37" value="3" class="b_rad">: other-4 <input type = "text" id="otherIssue_4" placeholder="other-4" style="width: 113px;"></p>
+        <p><input type = "radio" name="issue_38" value="0" class="n_rad" checked> <input type = "radio" name="issue_38" value="1" class="p_rad"> <input type = "radio" name="issue_38" value="2" class="d_rad"> <input type = "radio" name="issue_38" value="3" class="b_rad">: other-5 <input type = "text" id="otherIssue_5" placeholder="other-5" style="width: 113px;"></p>
+        </div>
+        
+        <div id="contempt_Div">
+        <p><u>CONTEMPT</u>:</p>
+        <p><input type = "radio" name="issue_39" value="0" class="n_rad" checked> <input type = "radio" name="issue_39" value="1" class="p_rad"> <input type = "radio" name="issue_39" value="2" class="d_rad"> <input type = "radio" name="issue_39" value="3" class="b_rad">: contempt </p>
+        <p><input type = "radio" name="issue_40" value="0" class="n_rad" checked> <input type = "radio" name="issue_40" value="1" class="p_rad"> <input type = "radio" name="issue_40" value="2" class="d_rad"> <input type = "radio" name="issue_40" value="3" class="b_rad">: atty-fee <input type="number" id="atty_Fee_Amt" style="width: 104px;" placeholder="$"></p>
+        <p><input type = "radio" name="issue_41" value="0" class="n_rad" checked> <input type = "radio" name="issue_41" value="1" class="p_rad"> <input type = "radio" name="issue_41" value="2" class="d_rad"> <input type = "radio" name="issue_41" value="3" class="b_rad">: exec-amt <input type="number" id="exec_Amt" style="width: 104px;" placeholder="$"></p>
+        <p><input type = "radio" name="issue_42" value="0" class="n_rad" checked> <input type = "radio" name="issue_42" value="1" class="p_rad"> <input type = "radio" name="issue_42" value="2" class="d_rad"> <input type = "radio" name="issue_42" value="3" class="b_rad">: purge-opp</p>
+        <p><input type = "text" id="purge_Terms" placeholder="purge-terms" style="width: 320px;"></p>
+        <p><input type = "radio" name="issue_43" value="0" class="n_rad" checked> <input type = "radio" name="issue_43" value="1" class="p_rad"> <input type = "radio" name="issue_43" value="2" class="d_rad"> <input type = "radio" name="issue_43" value="3" class="b_rad">: denied/dismissed</p>
+        </div>
+
+        <div id="paternity_Div">
+        <p><u>PATERNITY</u>:</p>
+        <p><input type = "text" id="paternity_Child" placeholder="pat-child" style="width: 148px;"> <input type = "text" id="paternity_Father" placeholder="pat-father" style="width: 148px;"></p>
+        <p><input type = "radio" name="issue_44" value="0" class="n_rad" checked> <input type = "radio" name="issue_44" value="1" class="y_rad"> -------: dna-test</p>
+        <p><input type = "radio" name="issue_45" value="0" class="n_rad" checked> <input type = "radio" name="issue_45" value="1" class="y_rad"> -------: no-test-ack</p>
+        <p><input type = "radio" name="issue_46" value="0" class="n_rad" checked> <input type = "radio" name="issue_46" value="1" class="y_rad"> -------: return-date <input type = "text" id="return_Date" style="width: 84px;" placeholder="date"></p>
+        <p><input type = "radio" name="issue_47" value="0" class="n_rad" checked> <input type = "radio" name="issue_47" value="1" class="y_rad"> -------: post-test-disavow</p>
+        <p><input type = "radio" name="issue_48" value="0" class="n_rad" checked> <input type = "radio" name="issue_48" value="1" class="y_rad"> -------: post-test-paternity</p>
+        </div>
+
+        <div id="cost_Div">
+        <p><u>COST & DOCKET</u>:</p>
+        <p><input type = "radio" name="issue_49" value="0" class="n_rad" checked> <input type = "radio" name="issue_49" value="1" class="p_rad"> <input type = "radio" name="issue_49" value="2" class="d_rad"> <input type = "radio" name="issue_49" value="3" class="b_rad">: court-costs</p>
+        <input type = "text" id="docketNum" placeholder="docket-#" style="width: 155px;">
+        <select id="division">
+            <option value="A">A</option>
+            <option value="C">C</option>
+            <option value="J">J</option>
+        </select> 
+        <select id="hearing_officer">
+            <option value="HOA">HOA</option>
+            <option value="HOC">HOC</option>
+            <option value="HOJ">HOJ</option>
+        </select> 
+        </div>
+        
+        <p><u>DOCS</u>:</p>
+        <p>
+            <button class="Buttons" onclick="draftCj()">Consent Judgment</button>
+        </p>
+        <br>
+        <p style="font-size: 12px;"><u>Disclaimer</u>: Draft-o-Matic is a drafting tool.  It is a work in progress.  If you are using this tool for any particular drafting task, please always ensure that the terms it generates exactly match the terms of your desired stipulation/judgment.  Additionally, please always double-check the accuracy of any calculations or conclusions rendered.  If you discover any errors or inconsistencies, please report them immediately upon discovery.  Draft-o-Matic is released under a creative commons license. bts-2023.</p>
+    </body>
+        <script>
+
+    function custodyCheck() {
+            var custodyCheckBox = document.getElementById("custodyIssue");
+            var custodyDiv = document.getElementById("custody_Div");
+            if (custodyCheckBox.checked == true) {custodyDiv.style.display = "block"} 
+            else {custodyDiv.style.display = "none"}
+        };
+
+    function csCheck() {
+            var csCheckBox = document.getElementById("csIssue");
+            var csDiv = document.getElementById("cs_Div");
+            if (csCheckBox.checked == true) {csDiv.style.display = "block"} 
+            else {csDiv.style.display = "none"}
+        };
+    
+    function ssCheck() {
+            var ssCheckBox = document.getElementById("ssIssue");
+            var ssDiv = document.getElementById("ss_Div");
+            if (ssCheckBox.checked == true) {ssDiv.style.display = "block"} 
+            else {ssDiv.style.display = "none"}
+        };
+
+    function cpCheck() {
+            var cpCheckBox = document.getElementById("cpIssue");
+            var cpDiv = document.getElementById("cp_Div");
+            if (cpCheckBox.checked == true) {cpDiv.style.display = "block"} 
+            else {cpDiv.style.display = "none"}
+        };
+
+    function otherCheck() {
+            var otherCheckBox = document.getElementById("otherIssue");
+            var otherDiv = document.getElementById("other_Div");
+            if (otherCheckBox.checked == true) {otherDiv.style.display = "block"} 
+            else {otherDiv.style.display = "none"}
+        };
+
+    function contemptCheck() {
+            var contemptCheckBox = document.getElementById("contemptIssue");
+            var contemptDiv = document.getElementById("contempt_Div");
+            if (contemptCheckBox.checked == true) {contemptDiv.style.display = "block"} 
+            else {contemptDiv.style.display = "none"}
+        };
+
+    function paternityCheck() {
+            var paternityCheckBox = document.getElementById("paternityIssue");
+            var paternityDiv = document.getElementById("paternity_Div");
+            if (paternityCheckBox.checked == true) {paternityDiv.style.display = "block"} 
+            else {paternityDiv.style.display = "none"}
+        };
+
+    function costCheck() {
+            var costCheckBox = document.getElementById("costIssue");
+            var costDiv = document.getElementById("cost_Div");
+            if (costCheckBox.checked == true) {costDiv.style.display = "block"} 
+            else {costDiv.style.display = "none"}
+        };
+
+    function draftCj() {
+
+            var item1 = document.getElementById("issue_1").value;
+            var item2 = document.querySelector('input[name="issue_2"]:checked').value;
+            var item3 = document.querySelector('input[name="issue_3"]:checked').value;
+            var item4 = document.querySelector('input[name="issue_4"]:checked').value;
+            var item5 = document.querySelector('input[name="issue_5"]:checked').value;
+            var item6 = document.querySelector('input[name="issue_6"]:checked').value;
+            var item7 = document.querySelector('input[name="issue_7"]:checked').value;
+            var item8 = document.querySelector('input[name="issue_8"]:checked').value;
+            var item9 = document.querySelector('input[name="issue_9"]:checked').value;
+            var item10 = document.querySelector('input[name="issue_10"]:checked').value;
+            
+            var item11 = document.querySelector('input[name="issue_11"]:checked').value;
+            var item12 = document.querySelector('input[name="issue_12"]:checked').value;
+            var item13 = document.querySelector('input[name="issue_13"]:checked').value;
+            var item14 = document.querySelector('input[name="issue_14"]:checked').value;
+            var item15 = document.querySelector('input[name="issue_15"]:checked').value;
+            var item16 = document.querySelector('input[name="issue_16"]:checked').value;
+            var item17 = document.querySelector('input[name="issue_17"]:checked').value;
+            var item18 = document.querySelector('input[name="issue_18"]:checked').value;
+            var item19 = document.querySelector('input[name="issue_19"]:checked').value;
+            var item20 = document.querySelector('input[name="issue_20"]:checked').value;
+            
+            var item21 = document.querySelector('input[name="issue_21"]:checked').value;
+            var item22 = document.querySelector('input[name="issue_22"]:checked').value;
+            var item23 = document.querySelector('input[name="issue_23"]:checked').value;
+            var item24 = document.querySelector('input[name="issue_24"]:checked').value;
+            var item25 = document.querySelector('input[name="issue_25"]:checked').value;
+            var item26 = document.querySelector('input[name="issue_26"]:checked').value;
+            var item27 = document.querySelector('input[name="issue_27"]:checked').value;
+            var item28 = document.querySelector('input[name="issue_28"]:checked').value;
+            var item29 = document.querySelector('input[name="issue_29"]:checked').value;
+            var item30 = document.querySelector('input[name="issue_30"]:checked').value;
+
+            var item31 = document.querySelector('input[name="issue_31"]:checked').value;
+            var item32 = document.querySelector('input[name="issue_32"]:checked').value;
+            var item33 = document.querySelector('input[name="issue_33"]:checked').value;
+            var item34 = document.querySelector('input[name="issue_34"]:checked').value;
+            var item35 = document.querySelector('input[name="issue_35"]:checked').value;
+            var item36 = document.querySelector('input[name="issue_36"]:checked').value;
+            var item37 = document.querySelector('input[name="issue_37"]:checked').value;
+            var item38 = document.querySelector('input[name="issue_38"]:checked').value;
+            var item39 = document.querySelector('input[name="issue_39"]:checked').value;
+            var item40 = document.querySelector('input[name="issue_40"]:checked').value;
+
+            var item41 = document.querySelector('input[name="issue_41"]:checked').value;
+            var item42 = document.querySelector('input[name="issue_42"]:checked').value;
+            var item43 = document.querySelector('input[name="issue_43"]:checked').value;
+            var item44 = document.querySelector('input[name="issue_44"]:checked').value;
+            var item45 = document.querySelector('input[name="issue_45"]:checked').value;
+            var item46 = document.querySelector('input[name="issue_46"]:checked').value;
+            var item47 = document.querySelector('input[name="issue_47"]:checked').value;
+            var item48 = document.querySelector('input[name="issue_48"]:checked').value;
+            var item49 = document.querySelector('input[name="issue_49"]:checked').value;
+
+            var openerCJ = ".&nbsp; IT IS AGREED that ";
+            var plaintiff = document.getElementById("pName").value;
+            var pUpper = plaintiff.toUpperCase();
+            var defendent = document.getElementById("dName").value;
+            var dUpper = defendent.toUpperCase();
+            var bothNames = plaintiff + " and " + defendent;
+            
+            var childNumber = document.getElementById("childNumber").value;
+            var childNameDOBs = document.getElementById("childNameDOBs").value;
+            var childRen = document.getElementById("kiddos").value;
+
+            var custodyIssue1 = document.getElementById("custodyIssue_1").value;
+            var custodyIssue2 = document.getElementById("custodyIssue_2").value;
+            var custodyIssue3 = document.getElementById("custodyIssue_3").value;
+            var custodyIssue4 = document.getElementById("custodyIssue_4").value;
+            var custodyIssue5 = document.getElementById("custodyIssue_5").value;
+
+            var csRetroDate = document.getElementById("cs_Retro_Date").value;
+            var csAmt = document.getElementById("cs_Amt").value;
+            var medsP = document.getElementById("meds_p").value;
+            var medsD = document.getElementById("meds_d").value;
+
+            var ipssRetroDate = document.getElementById("ipss_Retro_Date").value;
+            var fpssRetroDate = document.getElementById("fpss_Retro_Date").value;
+            var ipssAmt = document.getElementById("ipss_Amt").value;
+            var fpssAmt = document.getElementById("fpss_Amt").value;
+
+            var matDomAddress = document.getElementById("mat_Dom_Address").value;
+            var autoMov1 = document.getElementById("auto_Mov_1").value;
+            var autoMov2 = document.getElementById("auto_Mov_2").value;
+            var termDate = document.getElementById("term_Date").value;
+
+            var hocDate = document.getElementById("hoc_Date").value;
+            var statusDate = document.getElementById("status_Date").value;
+            var otherIssue1 = document.getElementById("otherIssue_1").value;
+            var otherIssue2 = document.getElementById("otherIssue_2").value;
+            var otherIssue3 = document.getElementById("otherIssue_3").value;
+            var otherIssue4 = document.getElementById("otherIssue_4").value;
+            var otherIssue5 = document.getElementById("otherIssue_5").value;
+
+            var attyFeeAmt = document.getElementById("atty_Fee_Amt").value;
+            var execAmt = document.getElementById("exec_Amt").value;
+            var purgeTerms = document.getElementById("purge_Terms").value;
+
+            var paternityFather = document.getElementById("paternity_Father").value;
+            var paternityChild = document.getElementById("paternity_Child").value;
+            var returnDate = document.getElementById("return_Date").value;
+
+            var docketNumber = document.getElementById("docketNum").value;
+            var divisionLetter = document.getElementById("division").value;
+            var hoLetters = document.getElementById("hearing_officer").value;
+            var docketBlock = docketNumber + " Div. " + divisionLetter + " - " + hoLetters
+
+            var jointCustody = " shall have joint custody of the minor " + childRen + ", " + childNameDOBs + ", in accordance with the attached 'Exhibit A:  Joint Custody Implementation Plan.'";
+            var sharedCustody = " shall have shared custody of the minor " + childRen + ", " + childNameDOBs + ", in accordance with the attached 'Exhibit A:  Shared Custody Implementation Plan.'";
+            var soleCustody_p = " shall have sole custody of the minor " + childRen + ", " + childNameDOBs + ". " + defendent + " shall have supervised access with the minor " + childRen +  " at the descretion of " + plaintiff + ".  If the parties are unable to informally agree to terms for " + defendent +  "'s supervised access, " + defendent + " shall be permitted to a minimum of two hours every other week at the Whistle-Stop in Lake Charles, LA, at " + defendent + "'s cost.";
+            var soleCustody_d = " shall have sole custody of the minor " + childRen + ", " + childNameDOBs + ". " + plaintiff + " shall have supervised access with the minor " + childRen +  " at the descretion of " + defendent + ".  If the parties are unable to informally agree to terms for " + plaintiff +  "'s supervised access, " + plaintiff + " shall be permitted to a minimum of two hours every other week at the Whistle-Stop in Lake Charles, LA, at " + plaintiff + "'s cost.";
+            var domP = " is named domiciliary parent of the minor " + childRen + ".";
+            var domP_B = " shall divide domiciliary parent powers in the following manner:";
+            var angerMan = " shall submit to an anger management assessment.  Copies of the assessment report shall be circulated to all parties, and the Court, upon completion";
+            var angerMan_B = " shall both submit to anger management assessments.  Copies of the assessment reports shall be circulated to all parties, and the Court, upon completion";
+            var psychEval = " shall submit to a psychological evaluation.  Upon completion, copies of the evaluator's report shall be circulated to all parties and their attorneys (if applicable).";
+            var psychEval_B = " shall submit to psychological evaluations.  Upon completion, copies of the evaluators' reports shall be circulated to all parties and their attorneys (if applicable).";
+            var parentCoord = " shall enroll in parenting coordination with [parent coordinator]. The parties shall split the cost of parent coordination.";
+            var ofw = " shall, within 3 days, sign up for the Our Family Wizard (OFW) app at ourfamilywizard.com.  Each party shall pay his/her own expense.  Said service shall be the parties' sole mode of communication except in the case of an emergency or unless otherwise agreed in writing.";
+
+            var cs_p = " shall pay child support to " + defendent + " in the amount of $" + csAmt + ".00 per month.  This child support obligation is retroactive to " + csRetroDate + ".  The child support obligation is set pursuant to Stogner.";
+            var cs_d = " shall pay child support to " + plaintiff + " in the amount of $" + csAmt + ".00 per month.  This child support obligation is retroactive to " + csRetroDate + ".  This child support obligation is set pursuant to Stogner.";
+            var unins_med = " shall pay any non-covered medical expenses of the minor " + childRen + " in the following manner: " + plaintiff + " pays " + medsP + "%; " + defendent + " pays " + medsD + "%.";
+            var tax = " shall claim any and all state and federal tax benefits associated with the minor " + childRen + " every year.";
+            var tax_B = " shall divide state and federal tax benefits associated with the minor " + childRen + " in the following manner: " + plaintiff + " shall claim xx; and " + defendent + " shall claim xx.";
+            var ins_child = " shall cover the minor " + childRen + " on a policy of health and hospitalization insurance.";
+
+            var ipss_p = " shall pay interim periodic spousal support (IPSS) to " + defendent + " in the amount of $" + ipssAmt + ".00 per month.  This interim spousal support obligation shall be retroactive to " + ipssRetroDate + ", and is subject to credit for any qualifying payments made after the date of retroactivity.";
+            var ipss_d = " shall pay interim periodic spousal support (IPSS) to " + plaintiff + " in the amount of $" + ipssAmt + ".00 per month.  This interim spousal support obligation shall be retroactive to " + ipssRetroDate + ", and is subject to credit for any qualifying payments made after the date of retroactivity.";
+            var ipss_bills_p = " shall pay interim periodic spousal support (IPSS) to " + defendent + " by paying the following bills: " + ". This interim spousal support obligation shall be retroactive to " + ipssRetroDate + ", and is subjecct to credit for any qualifying payments made after the date of retroactivity.";
+            var ipss_bills_d = " shall pay interim periodic spousal support (IPSS) to " + plaintiff + " by paying the following bills: " + ". This interim spousal support obligation shall be retroactive to " + ipssRetroDate + ", and is subject to credit for any qualifying payments made after the date of retroactivity.";
+            var fpss_p = " shall pay final periodic spousal support (FPSS) to " + defendent + " in the amount of $" + fpssAmt + ".00 per month.  This final spousal support obligation shall be retroactive to " + fpssRetroDate + ", and is subject to credit for any qualifying payments made after the date of retroactivity.";
+            var fpss_d = " shall pay final periodic spousal support (FPSS) to " + plaintiff + " in the amount of $" + fpssAmt + ".00 per month.  This final spousal support obligation shall be retroactive to " + fpssRetroDate + ", and is subject to credit for any qualifying payments made after the date of retroactivity.";
+            var ss_denied = "'s request for spousal support is hereby denied.";
+            var ss_denied_B = "'s requests for spousal support are both denied.";
+
+            var use_home = " shall have exclusive use of the community home located at " + matDomAddress + ".";
+            var frv_p = " shall reserve any and all qualifying rights to claim fair rental value for " + defendent + "'s use of the home located at " + matDomAddress + ".";
+            var frv_d = " shall reserve any and all qualifying rights to claim fair rental value for " + plaintiff + "'s use of the home located at " + matDomAddress + ".";
+            var ret_prop = " shall be allowed to come to the former residence to retrieve personal items.";
+            var auto_movables_p = " shall have exclusive use of the " + autoMov1 + ".";
+            var auto_movables_d = " shall have exclusive use of the " + autoMov2 + ".";
+            var auto_movables_B = " shall divide exclusive use of their automobiles in the following manner: " + plaintiff + " shall have exclusive use of the " + autoMov1 + "; " + defendent + " shall have exclusive use of the " + autoMov2 + ".  Each party shall be responsible for any costs associated with the vehicles he/she is exclusively using under this section.";
+            var cp_injunct_p = " a preliminary injunction is hereby issued to restrain, enjoin and prohibit " + plaintiff + " from alienating, encumbering or disposing any of the assets of the community of acquets and gains existing between the parties.";
+            var cp_injunct_d = " a preliminary injunction is hereby issued to restrain, enjoin and prohibit " + defendent + " from alienating, encumbering or disposing any of the assets of the community of acquets and gains existing between the parties.";
+            var cp_injunct_B = " a preliminary injunction is hereby issued to restrain, enjoin and prohibit the parties from alienating, encumbering or disposing any of the assets of the community of acquets and gains existing between the parties.";
+            var term_regime = " the community of acquets and gains existing between the parties is hereby terminated, effective " + termDate + ".";
+            var ddl_deadlines = " the parties shall, within 45 days, file detailed descriptive lists of community assets, debts and claims for reimbursement, and each party shall timely traverse said lists in conformity with La. R.S. 9:2801, et. seq.";
+            var half_owners = " is recognized as an owner of a one-half (1/2) interest in the community property existing between the parties, pending partition.";
+            var half_owners_B = " are recognized as owners of a one-half (1/2) interest in the community property existing between the parties, pending partition.";
+
+            var tro_harass = " is ordered to avoid excessive and unwanted contact, and to communicate in a civil and respectful manner or face a potential finding of contempt of court.  This order is intended to keep the peace between the parties.";
+            var tro_harass_B = " are reciprocally ordered to avoid excessive and unwanted contact, and to communicate in a civil and respectful manner or face a potential finding of contempt of court.  This order is intended to keep the peace between the parties.";
+            var ins_spouse_p = " shall maintain a policy of health insurance on " + defendent + ".";
+            var ins_spouse_d = " shall maintain a policy of health insurance on " + plaintiff + ".";
+            var hoc_fix = " shall report for a hearing officer conference, via Zoom, on " + hocDate + ".  This Stipulation/Judgment shall be the only notice of the next conference.";
+            var status_fix = " shall report for a status conference, via Zoom, on " + statusDate + ".  This Stipulation/Judgment shall be the only notice of the next conference.";
+            var drug_now_p = " shall immediately submit to a 10-panel cuticle drug screen at Iles Medical Testing in Lake Charles (or a similarly qualified facility).  " + plaintiff + " shall be solely responsible for the cost of the test.  " + plaintiff + " shall report for testing within 24 hours.  If " + plaintiff + " fails to submit to testing within 24 hours, it shall be deemed a positive test.  All test results shall be forwarded to both parties, and their attorneys (if applicable), upon completion.";
+            var drug_now_d = " shall immediately submit to a 10-panel cuticle drug screen at Iles Medical Testing in Lake Charles (or a similarly qualified facility).  " + defendent + " shall be solely responsible for the cost of the test.  " + defendent + " shall report for testing within 24 hours.  If " + defendent + " fails to submit to testing within 24 hours, it shall be deemed a positive test.  All test results shall be forwarded to both parties, and their attorneys (if applicable), upon completion.";
+            var drug_now_B = " shall both immediately submit to 10-panel cuticle drug screens at Iles Medical Testing in Lake Charles (or a similarly qualified facility).  Each party shall be solely responsible for the cost of his/her test.  Each party shall report for testing within 24 hours.  If either party fails to submit to testing within 24 hours, it shall be deemed a positive test.  All test results shall be forwarded to both parties, and their attorneys (if applicable), upon completion.";
+            var drug_random_p = " shall be subject to random drug testing (10-panel hair follicle tests), which shall take place up to once every three (3) months.  All testing is to take place within 24 hours of " + defendent + "’s written request (text message) at Iles Medical Testing, in Lake Charles (or a similarly qualified facility).  " + defendent + " shall pay for the randomly requested drug test before sending the testing request to " + plaintiff + ".  If " + plaintiff + " tests positive for a substance for which " + plaintiff + " does not have a current/valid prescription, then " + plaintiff + " shall reimburse " + defendent + " for all costs of said test within 14 days.  All test results shall be forwarded to both parties, and their attorneys (if applicable).  Failure to take said test within 24 hours will result in the presumption that the party would have had a positive test result.";
+            var drug_random_d = " shall be subject to random drug testing (10-panel hair follicle tests), which shall take place up to once every three (3) months.  All testing is to take place within 24 hours of " + plaintiff + "’s written request (text message) at Iles Medical Testing, in Lake Charles (or a similarly qualified facility).  " + plaintiff + " shall pay for the randomly requested drug test before sending the testing request to " + defendent + ".  If " + defendent + " tests positive for a substance for which " + defendent + " does not have a current/valid prescription, then " + defendent + " shall reimburse " + plaintiff + " for all costs of said test within 14 days.  All test results shall be forwarded to both parties, and their attorneys (if applicable).  Failure to take said test within 24 hours will result in the presumption that the party would have had a positive test result.";
+            var drug_random_B = " shall both be subject to random drug testing (10-panel hair follicle tests), which shall take place up to once every three (3) months.  All testing is to take place within 24 hours of a party’s written request (text message) at Iles Medical Testing, in Lake Charles (or a similarly qualified facility).  The requesting-party shall pay for the randomly requested drug test before sending the testing request to the other party.  If any party tests positive for a substance for which he/she does not have a current/valid prescription, then tested-party shall reimburse requesting-party for all costs of said test within 14 days.  All test results shall be forwarded to both parties, and their attorneys (if applicable).  Failure to take said test within 24 hours will result in the presumption that the party would have had a positive test result.";
+
+            var contempt = " is hereby held in contempt of court and shall be penalized as set out in the following paragraph:";
+            var contempt_B = " are both hereby held in contempt of court they shall be penalized as set out in the following paragraph:";
+            var atty_fee_p = " shall pay attorney fees of $" + attyFeeAmt + ".00 to " + defendent + " within ninety (90) days.";
+            var atty_fee_d = " shall pay attorney fees of $" + attyFeeAmt + ".00 to " + plaintiff + " within ninety (90) days.";
+            var exec_amt = " is in arrears in his support obligation in the total amount of $" + execAmt + ".00.  A Judgment for the full amount of these arrears is rendered and hereby made executory.";
+            var purge_opp_p = defendent + "'s request to hold " + plaintiff + " in contempt is passed without date, and this issue will not be re-set for hearing if " + defendent + purgeTerms + " and abides by all terms and conditions of the ultimate judgment herein.";
+            var purge_opp_d = plaintiff + "'s request to hold " + defendent + " in contempt is passed without date, and this issue will not be re-set for hearing if " + plaintiff + purgeTerms + " and abides by all terms and conditions of the ultimate judgment herein.";
+            var con_denied = "'s request for a holding of contempt is hereby denied.";
+            var con_denied_B = "'s requests for holdings of contempt are both denied.";
+
+            var dna_test = " and " + paternityChild + " shall immediately report to Iles Medical Testing, L.L.C., located at 3437 Derek Drive, Lake Charles, LA 70607, to submit any necessary blood and/or tissue samples to determine if " + paternityFather + " is the biological father of " + paternityChild + ".  All test results shall be forwarded to all parties (and counsel, if applicable).  " + paternityFather + " shall pay the cost of the paternity test in advance. Reimbursement may later be ordered, depending on the ultimate test results.";
+            var no_test_ack = paternityFather + ", having both formally and informally acknowledged paternity, is legally recognized as the father of " + paternityChild + ".";
+            var return_date = " (and their attorneys, if applicable) shall return for a hearing officer conference, via Zoom, on " + returnDate + ". The parties will review genetic test results to determine paternity at the next conference. This Stipulation/Judgment shall be the only notice of the next conference date/time.";
+            var post_test_disavow = paternityFather + ", based on the results of genetic testing, is not the biological father of " + paternityChild + ".  Any legal designation of paternity is hereby disavowed.";
+            var post_test_paternity = paternityFather + ", having acknowledged paternity, and with genetic testing confirming his paternity, is legally recognized as the father of " + paternityChild + ".";
+
+            var court_cost_p = " shall divide court costs in the following manner: " + plaintiff + " shall pay 100%; " + defendent + " shall pay 0%.";
+            var court_cost_d = " shall divide court costs in the following manner: " + plaintiff + " shall pay 0%; " + defendent + " shall pay 100%.";
+            var court_cost_B = " shall divide court costs in the following manner: " + plaintiff + " shall pay 50%; " + defendent + " shall pay 50%.";
+
+            var arr = [item1, item2, item3, item4, item5, item6, item7, item8, item9, item10, item11, item12, item13, item14, item15, item16, item17, item18, item19, item20, item21, item22, item23, item24, item25, item26, item27, item28, item29, item30, item31, item32, item33, item34, item35, item36, item37, item38, item39, item40, item41, item42, item43, item44, item45, item46, item47, item48, item49];
+            
+            var para = [
+                ["", bothNames + jointCustody, bothNames + sharedCustody, plaintiff + soleCustody_p, defendent + soleCustody_d], //1--custody//
+                ["", plaintiff + domP, defendent + domP, bothNames + domP_B], //2--dom-P//
+                ["", bothNames + ofw, "", ""], //3--ofw//
+                ["", plaintiff + parentCoord, defendent + parentCoord, bothNames + parentCoord], //4--parent-coord//
+                ["", plaintiff + angerMan, defendent + angerMan, bothNames + angerMan_B], //5--anger-man//
+                ["", plaintiff + psychEval, defendent + psychEval, bothNames + psychEval_B], //6--psych-eval//
+                ["", plaintiff + custodyIssue1, defendent + custodyIssue1, bothNames + custodyIssue1], //7--custody-1//
+                ["", plaintiff + custodyIssue2, defendent + custodyIssue2, bothNames + custodyIssue2], //8--custody-2//
+                ["", plaintiff + custodyIssue3, defendent + custodyIssue3, bothNames + custodyIssue3], //9--custody-3//
+                ["", plaintiff + custodyIssue4, defendent + custodyIssue4, bothNames + custodyIssue4], //10--custody-4//
+                ["", plaintiff + custodyIssue5, defendent + custodyIssue5, bothNames + custodyIssue5], //11--custody-5//
+                ["", plaintiff + cs_p, defendent + cs_d, bothNames + " ERROR -- TWO CS"], //12--cs//
+                ["", bothNames + unins_med, "",""], //13--unins-meds//
+                ["", plaintiff + tax, defendent + tax, bothNames + tax_B], //14--tax-benefits//
+                ["", plaintiff + ins_child, defendent + ins_child, bothNames + ins_child], //15--ins-child//
+                ["", plaintiff + ipss_p, defendent + ipss_d, "ERROR -- TWO IPSS"], //16--ipss//
+                ["", plaintiff + ipss_bills_p, defendent + ipss_bills_d, "ERROR -- TWO IPSS BILLS"], //17--ipss-bills//
+                ["", plaintiff + fpss_p, defendent + fpss_p, "ERROR -- TWO FPSS"], //18--fpss//
+                ["", plaintiff + ss_denied, defendent + ss_denied, bothNames + ss_denied_B], //19--ss-denied-dismissed//
+                ["", plaintiff + use_home, defendent + use_home, bothNames + use_home], //20--use-home//
+                ["", plaintiff + frv_p, defendent + frv_d, bothNames + frv_p], //21--frv//
+                ["", plaintiff + ret_prop, defendent + ret_prop, bothNames + ret_prop], //22--ret-prop//
+                ["", plaintiff + auto_movables_p, defendent + auto_movables_d, bothNames + auto_movables_B], //23--auto-movables//
+                ["", cp_injunct_p, cp_injunct_d, cp_injunct_B], //24--cp-injunct//
+                ["", term_regime, term_regime, term_regime], //25--term-regime//
+                ["", ddl_deadlines, "", ""], //26--ddls//
+                ["", bothNames + half_owners_B, "", ""], //27--1-2-owners//
+                ["", bothNames + hoc_fix, "", ""], //28--hoc-fix//
+                ["", bothNames + status_fix, "", ""], //29--status-fix//
+                ["", plaintiff + tro_harass, defendent + tro_harass, bothNames + tro_harass_B], //30--tro-harass//
+                ["", plaintiff + ins_spouse_p, defendent + ins_spouse_d, ""], //31--ins-spouse//
+                ["", plaintiff + drug_now_p, defendent + drug_now_d, bothNames + drug_now_B], //32--drug-now//
+                ["", plaintiff + drug_random_p, defendent + drug_random_d, bothNames + drug_random_B], //33--drug-random//
+                ["", plaintiff + otherIssue1, defendent + otherIssue1, bothNames + otherIssue1], //34--other-1//
+                ["", plaintiff + otherIssue2, defendent + otherIssue2, bothNames + otherIssue2], //35--other-2//
+                ["", plaintiff + otherIssue3, defendent + otherIssue3, bothNames + otherIssue3], //36--other-3//
+                ["", plaintiff + otherIssue4, defendent + otherIssue4, bothNames + otherIssue4], //37--other-4//
+                ["", plaintiff + otherIssue5, defendent + otherIssue4, bothNames + otherIssue5], //38--other-5//
+                ["", plaintiff + contempt, defendent + contempt, bothNames + contempt_B], //39--contempt//
+                ["", plaintiff + atty_fee_p, defendent + atty_fee_d, ""], //40--atty-fee//
+                ["", plaintiff + exec_amt, defendent + exec_amt, ""], //41--exec-amt//
+                ["", purge_opp_p, purge_opp_d, ""], //42--purge-opp//
+                ["", plaintiff + con_denied, defendent + con_denied, bothNames + con_denied_B], //43--con-denied-dismissed//
+                ["", bothNames + dna_test, "", ""], //44--dna-test//
+                ["", no_test_ack, "", ""], //45--no-test-ack//
+                ["", bothNames + return_date, "", ""], //46--return-date//
+                ["", post_test_disavow, "", ""], //47--post-test-disavow//
+                ["", post_test_paternity, "", ""], //48--post-test-paternity//
+                ["", bothNames + court_cost_p, bothNames + court_cost_d, bothNames + court_cost_B], //49--court-costs//
+            ];
+
+            var docParaCj = [];
+            var c = 1;
+
+            for (i = 0; i < arr.length; i++) {
+                arrVal = arr[i];
+                if (arrVal == 0) {}
+                else {
+                    docParaCj.push(c + openerCJ + para[i][arrVal]);
+                    c++;
+                }
+            };
+
+            var myWindowCj = window.open("", "Message B", "width=563,height=975");
+
+            myWindowCj.document.write("<head><style> p {font-family: Georgia, 'Times New Roman', Times, serif; font-size: 15px;} td {font-family: Georgia, 'Times New Roman', Times, serif; font-size: 15px;} </style></head>");
+
+            myWindowCj.document.write("<table width='100%'><tr style='height: 12px'>" + "<td style='text-align: left;' width='50%'>" + pUpper + "</td><td style='text-align: right;' width='50%'>14th JUDICIAL DISTRICT COURT</td></tr></table>");
+            myWindowCj.document.write("<table width='100%'><tr style='height: 8px'>" + "<td style='text-align: center;' width='100'><strong>:</strong></td></tr></table>");
+            myWindowCj.document.write("<table width='100%'><tr style='height: 12px'>" + "<td style='text-align: left;' width='50%'>" + docketBlock + "</td><td style='text-align: right;' width='50%'>PARISH OF CALCASIEU</td></tr></table>");
+            myWindowCj.document.write("<table width='100%'><tr style='height: 8px'>" + "<td style='text-align: center;' width='100'><strong>:</strong></td></tr></table>");
+            myWindowCj.document.write("<table width='100%'><tr style='height: 12px'>" + "<td style='text-align: left;' width='50%'>" + dUpper + "</td><td style='text-align: right;' width='50%'>STATE OF LOUISIANA</td></tr></table>");
+            myWindowCj.document.write("<table width='100%'><tr style='height: 8px'>" + "<td style='text-align: center;' width='100'><strong>:</strong></td></tr></table>");
+            myWindowCj.document.write("<table width='100%'><tr style='height: 12px'>" + "<td style='text-align: left;' width='50%'>" + "FILED: ___________________" + "</td><td style='text-align: right;' width='50%'>__________________________</td></tr></table><br>");
+
+            myWindowCj.document.write("<p style='text-align: center'><u><strong>JOINT STIPULATION</strong></u><br></p>");
+            myWindowCj.document.write("<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The parties, " + plaintiff + " & " + defendent + ", have come to an agreement on the pending issues in the above-captioned matter, and they do hereby stipulate as follows:</p>");
+
+            for (i = 0; i < docParaCj.length; i++) {
+
+                    myWindowCj.document.write("<p>"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+docParaCj[i]+"</p>");
+            };
+
+            myWindowCj.document.write("<p><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________<br><strong>"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+plaintiff+"</strong><br></p>");
+            myWindowCj.document.write("<p><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________<br><strong>"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+defendent+"</strong><br><br></p><p style='text-align: center'>* * * * *<br></p>");
+            myWindowCj.document.write("<p style='text-align: center'><u><strong>CONSENT JUDGMENT</strong></u><br></p>");
+            myWindowCj.document.write("<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This cause came before the  Court on the joint stipulation of the parties. After considering the foregoing stipulations, and with the law and evidence being in favor thereof:<br></p>");
+            myWindowCj.document.write("<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT IS ORDERED, ADJUDGED, AND DECREED that all terms and conditions of the foregoing joint stipulation are hereby made the Judgment of this Court.<br></p>");
+            myWindowCj.document.write("<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;JUDGMENT READ, RENDERED, AND SIGNED, in Chambers, at Lake Charles, Calcasieu Parish, Louisiana on this _____ day of _____________, 202__.<br></p>");
+            myWindowCj.document.write("<p><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_________________<br><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;District Judge</strong><br></p>");
+        };
+        </script>
+</html>
